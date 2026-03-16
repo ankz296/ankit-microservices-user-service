@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -35,7 +36,7 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public UserResponse get(Long id) {
+    public UserResponse get(UUID id) {
         User u = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
         return toResp(u);
     }
@@ -45,7 +46,7 @@ public class UserService {
         return repo.findAll().stream().map(this::toResp).toList();
     }
 
-    public UserResponse update(Long id, UserRequest req) {
+    public UserResponse update(UUID id, UserRequest req) {
         User u = repo.findById(id).orElseThrow(() -> new IllegalArgumentException("User not found"));
         if (!u.getEmail().equals(req.email()) && repo.existsByEmail(req.email())) {
             throw new IllegalArgumentException("Email already registered");
@@ -55,7 +56,7 @@ public class UserService {
         return toResp(repo.save(u));
     }
 
-    public void delete(Long id) {
+    public void delete(UUID id) {
         if (!repo.existsById(id)) throw new IllegalArgumentException("User not found");
         repo.deleteById(id);
     }
