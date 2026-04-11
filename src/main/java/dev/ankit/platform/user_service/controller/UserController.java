@@ -6,6 +6,7 @@ import dev.ankit.platform.user_service.services.UserService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class UserController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     @ResponseStatus(HttpStatus.CREATED)
     public UserResponse create(@Valid @RequestBody UserRequest req) {
 
@@ -36,6 +38,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     public UserResponse get(@PathVariable UUID id) {
 
         log.info("Fetching user id={}", id);
@@ -48,6 +51,7 @@ public class UserController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     public List<UserResponse> list() {
 
         log.info("Fetching all users");
@@ -60,6 +64,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('ROLE_USER')")
     public UserResponse update(@PathVariable UUID id, @Valid @RequestBody UserRequest req) {
 
         log.info("Updating user id={}", id);

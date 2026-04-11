@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.OffsetDateTime;
 
 @Slf4j
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "dev.ankit.platform.user_service")
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ResourceNotFoundException.class)

@@ -1,0 +1,22 @@
+-- Password (null for social login users)
+ALTER TABLE users
+ADD COLUMN IF NOT EXISTS password VARCHAR(255);
+
+-- Role
+ALTER TABLE users
+ADD COLUMN IF NOT EXISTS role VARCHAR(30)
+NOT NULL DEFAULT 'ROLE_USER';
+
+-- Auth provider: LOCAL, GOOGLE, AUTH0
+ALTER TABLE users
+ADD COLUMN IF NOT EXISTS provider VARCHAR(20)
+NOT NULL DEFAULT 'LOCAL';
+
+-- Provider's user ID (Google sub, Auth0 sub)
+ALTER TABLE users
+ADD COLUMN IF NOT EXISTS provider_id VARCHAR(255);
+
+-- Email verified flag
+ALTER TABLE users
+ADD COLUMN IF NOT EXISTS verified BOOLEAN
+NOT NULL DEFAULT FALSE;
